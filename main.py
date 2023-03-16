@@ -6,7 +6,6 @@ from utils import get_data , train , valid
 from DataClass import BirdDataset
 from vit import vit
 from torch.utils.tensorboard import SummaryWriter
-from vit_pytorch import ViT
 from torchsummary import summary
 
 if torch.cuda.is_available():
