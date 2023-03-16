@@ -7,3 +7,4 @@ numpy>=1.18.5
 Pillow>=9.4.0
 tqdm>=4.65.0
 scikit-learn>=1.2.1
+einops>=0.6.0
