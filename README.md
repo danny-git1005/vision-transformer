@@ -4,6 +4,7 @@ This is a practice on vision transformer( ViT ).
 It is based on the paper "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale"(https://arxiv.org/pdf/2010.11929.pdf)
 
 The above is the archtecture : 
+```
 Layer (type:depth-idx)                        Output Shape              Param #
 ===============================================================================================
 ├─patch_embedding: 1-1                        [-1, 50, 1024]            --
@@ -27,5 +28,5 @@ Input size (MB): 0.57
 Forward/backward pass size (MB): 4.27
 Params size (MB): 14.00
 Estimated Total Size (MB): 18.84
-
+```
 Image data is from kaggle "BIRDS 500 SPECIES- IMAGE CLASSIFICATION"(https://www.kaggle.com/datasets/gpiosenka/100-bird-species)
