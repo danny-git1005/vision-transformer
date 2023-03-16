@@ -1,0 +1,9 @@
+# pip install -r requirements.txt
+
+torch>=1.8.0
+torchvision>=0.10.0
+tensorboard>=2.11.0
+numpy>=1.18.5
+Pillow>=9.4.0
+tqdm>=4.65.0
+scikit-learn>=1.2.1
