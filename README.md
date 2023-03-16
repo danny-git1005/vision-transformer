@@ -2,9 +2,9 @@
 
 This is a practice on vision transformer( ViT ).
 It is based on the paper "[An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/pdf/2010.11929.pdf)"
-![image](https://user-images.githubusercontent.com/63143667/225532733-a77220d1-2be3-4203-a6a7-bf15cd714a9b.png)
 
-The bellow is the archtecture : 
+# Architecture
+![image](https://user-images.githubusercontent.com/63143667/225532733-a77220d1-2be3-4203-a6a7-bf15cd714a9b.png)
 ```
 Layer (type:depth-idx)                        Output Shape              Param #
 ===============================================================================================
