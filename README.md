@@ -30,7 +30,34 @@ Forward/backward pass size (MB): 4.27
 Params size (MB): 14.00
 Estimated Total Size (MB): 18.84
 ```
+# Data
 Image data is from kaggle "BIRDS 500 SPECIES- IMAGE CLASSIFICATION"(https://www.kaggle.com/datasets/gpiosenka/100-bird-species)
+## File structure
+```
+birds
+  ├── test
+  │   ├── ABBOTTS BABBLER
+  |   ├── ABBOTTS BOOBY
+  |   |         .
+  |   |         .
+  |   |         .
+  |
+  ├── train
+  │   ├── ABBOTTS BABBLER
+  │   ├── ABBOTTS BABBLER
+  |   |         .
+  |   |         .
+  |   |         .
+  |
+  ├── val
+  │   ├── ABBOTTS BABBLER
+  │   ├── ABBOTTS BABBLER
+  |   |         .
+  |   |         .
+  |   |         .
+```
+
+
 
 
 
