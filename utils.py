@@ -23,12 +23,12 @@ def get_data(train_dir , val_dir , test_dir):
         
         for img in os.listdir(train_dir + _class):
             train_imgs.append(train_dir + _class + "/" + img)
-        
-        for img in os.listdir(val_dir + _class):
-            valid_imgs.append(val_dir + _class + "/" + img)
-            
-        for img in os.listdir(test_dir + _class):
-            test_imgs.append(test_dir + _class + "/" + img)
+        if val_dir :
+            for img in os.listdir(val_dir + _class):
+                valid_imgs.append(val_dir + _class + "/" + img)
+        if test_dir :
+            for img in os.listdir(test_dir + _class):
+                test_imgs.append(test_dir + _class + "/" + img)
 
     ClassInt = {classes[i] : i for i in range(len(classes))}
 
@@ -43,8 +43,6 @@ def img_transform(img):
         # transforms.RandomVerticalFlip(),
         # transforms.RandomCorp()
         transforms.ToTensor(),
-        # transforms.Normalize([0.439, 0.459, 0.406], [0.185, 0.186, 0.229]),
-
     ])
 
     return tranfromer(img)
@@ -54,15 +52,16 @@ def train( dataloader , model , loss_function , optimizer , lr_scheduler , scale
     model.train()
     accumulation_step = 2
 
-    correct = 0
+    correct    = 0
     train_loss = 0
-    avg_loss = 0
+    avg_loss   = 0
+    
     count = tqdm(dataloader)
     for i, (im, label) in enumerate(count):
         
         im, label = im.to(device), label.to(device)
-        shape = im.shape[0]
-        img_size = im.shape[3]
+        shape     = im.shape[0]
+        img_size  = im.shape[3]
         
         try:
             im = im.view(shape,-1,img_size,img_size)
@@ -70,7 +69,9 @@ def train( dataloader , model , loss_function , optimizer , lr_scheduler , scale
             pass
 
         with autocast():
-            pred = model(im)
+            pred , _ = model(im)
+            # print(label.shape)
+            # print(pred.shape)
             loss = loss_function(pred, label)
 
         train_loss += loss.item()
@@ -99,6 +100,9 @@ def valid(dataloader , model , loss_function):
     test_loss = 0
     correct = 0
 
+    y_true_list = []
+    y_pred_list = []
+
     precision = 0
     recall    = 0
     f1        = 0
@@ -118,7 +122,7 @@ def valid(dataloader , model , loss_function):
             pred = model(im)
             
             with autocast():
-                pred = model(im)
+                pred, _ = model(im)
                 loss = loss_function(pred, label)
 
             p = F.softmax(pred, dim=1)
@@ -127,17 +131,22 @@ def valid(dataloader , model , loss_function):
             correct += (p.argmax(1) == label.argmax(1)).type(torch.float).sum().item()
             
             y_true, y_pred = label.argmax(1).cpu().detach().numpy() , p.argmax(1).cpu().detach().numpy() 
-            precision += precision_score( y_true , y_pred , average="macro" , zero_division=0 )
-            recall    += recall_score( y_true , y_pred , average="macro" , zero_division=0)
-            f1        += f1_score( y_true , y_pred , average="macro" , zero_division=0)
+            y_true_list = y_true_list + list(y_true)
+            y_pred_list = y_pred_list + list(y_pred)
+            
+            # precision += precision_score( y_true , y_pred , average="macro" , zero_division=0 )
+            # recall    += recall_score( y_true , y_pred , average="macro" , zero_division=0)
+            # f1        += f1_score( y_true , y_pred , average="macro" , zero_division=0)
     
-    # precision = precision_score( y_true_array , y_pred_array )
-    # recall    = recall_score( y_true_array , y_pred_array )
-    # f1        = f1_score( y_true_array , y_pred_array )
-    precision /= len(dataloader)
-    recall    /= len(dataloader)
-    f1        /= len(dataloader)
+    precision = precision_score( y_true_list , y_pred_list , average="macro",zero_division=0)
+    recall    = recall_score( y_true_list , y_pred_list , average="macro",zero_division=0)
+    f1        = f1_score( y_true_list , y_pred_list , average="macro",zero_division=0)
+    # print( len(y_true_list))
+    # precision /= len(dataloader)
+    # recall    /= len(dataloader)
+    # f1        /= len(dataloader)
+    
     test_loss /= len(dataloader)
     correct   /= size
-    print("Val    : loss:{:.5f}, correct:{:.5f}, Precision:{:.5f} , Recall:{:.5f} , f1:{:.5f}".format( test_loss , correct , precision , recall , f1))
+    print("Valid  : loss:{:.5f}, correct:{:.5f}%, Precision:{:.5f} , Recall:{:.5f} , f1:{:.5f}".format( test_loss , correct*100 , precision , recall , f1))
     return test_loss , correct
