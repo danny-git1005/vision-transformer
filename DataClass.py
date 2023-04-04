@@ -27,16 +27,11 @@ class BirdDataset(Dataset):
         label = np.zeros(len(self.class_to_int))
         label[label_num] = 1
         
-        #Applying transforms on image
-        if self.transforms:
-            image = self.transforms(image)
 
-        img_tensor = img_transform(image)
+        img_tensor   = img_transform(image)
         label_tensor = torch.from_numpy(label)
 
         return img_tensor , label_tensor
-        
-        
         
     def __len__(self):
         return len(self.imgs_list)
