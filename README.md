@@ -57,8 +57,8 @@ birds
   |   |         .
 ```
 
-Inference:\n
-data:\n
+Inference: \\n
+data:\\n
 https://www.kaggle.com/code/jainamshah17/pytorch-starter-image-classification
 https://www.kaggle.com/code/lonnieqin/bird-classification-with-pytorch
 https://www.kaggle.com/code/stpeteishii/bird-species-classify-torch-conv2d
